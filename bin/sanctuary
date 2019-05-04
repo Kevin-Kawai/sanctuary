@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+lib_path = File.expand_path('../../lib', __FILE__)
+$:.unshift(lib_path)
+
+require "bundler"
+require "sanctuary/cli"
+
+Bundler.setup
+Sanctuary::CLI.start
