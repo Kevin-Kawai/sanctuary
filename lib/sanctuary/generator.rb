@@ -11,7 +11,8 @@ module Sanctuary
     end
 
     def create_lib_file
-      copy_file "#{template}", "#{template}"
+      # only copy the file and not the directory the file resides in
+      copy_file "#{template}", "#{template.split("/").last}"
     end
   end
 end
