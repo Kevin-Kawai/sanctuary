@@ -5,10 +5,20 @@ require_relative "reader"
 module Sanctuary
   class CLI
     def self.start
-      choices = Reader.read_templates[2..-1]
+      result = present_choices
+      Generator.start([result[1..-1]])
+    end
+
+    private
+
+    def self.present_choices(path = "") 
+      choices = Reader.read_templates(path)[2..-1].sort
       prompt = TTY::Prompt.new
-      result = prompt.enum_select("Select a template?", choices)
-      Generator.start([result])
+      prompt_choice = prompt.enum_select("Select a template?", choices)
+      if Reader.directory?(prompt_choice)
+        return present_choices(path + "/" + prompt_choice)
+      end
+      return path + "/" + prompt_choice
     end
   end
 end
