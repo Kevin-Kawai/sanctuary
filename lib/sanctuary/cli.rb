@@ -1,12 +1,18 @@
 require "tty-prompt"
+require "pry"
 require_relative "generator"
 require_relative "reader"
 
 module Sanctuary
   class CLI
     def self.start
-      result = present_choices
-      Generator.start([result[1..-1]])
+      # TODO: use optsparser
+      if ARGV.include?("-g")
+        Generator.start([ARGV[1]])
+      else
+        result = present_choices
+        Generator.start([result[1..-1]])
+      end
     end
 
     private
