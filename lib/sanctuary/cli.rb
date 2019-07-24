@@ -6,7 +6,11 @@ module Sanctuary
   class CLI
     def self.start
       result = present_choices
-      Generator.start([result[1..-1]])
+      if ARGV.include?("-p")
+        Generator.start([result[1..-1], ARGV.last])
+      else
+        Generator.start([result[1..-1]])
+      end
     end
 
     private
