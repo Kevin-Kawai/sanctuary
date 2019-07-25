@@ -9,7 +9,7 @@ module Sanctuary
       if ARGV.include?("-p")
         Generator.start([result[1..-1], ARGV.last])
       else
-        Generator.start([result[1..-1]])
+        Generator.start([result[1..-1], ''])
       end
     end
 
