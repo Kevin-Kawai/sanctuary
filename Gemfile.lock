@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sanctuary (0.1.9)
+    sanctuary (0.1.10)
       thor (~> 0.2)
       tty-prompt (~> 0.0)
 

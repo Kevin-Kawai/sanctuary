@@ -5,11 +5,18 @@ require_relative "reader"
 module Sanctuary
   class CLI
     def self.start
-      result = present_choices
-      if ARGV.include?("-p")
-        Generator.start([result[1..-1], ARGV.last])
+      if ARGV.include?("-m")
+        results = multi_select
+        results.each do |result|
+          Generator.start([result[1..-1], ''])
+        end
       else
-        Generator.start([result[1..-1], ''])
+        result = present_choices
+        if ARGV.include?("-p")
+          Generator.start([result[1..-1], ARGV.last])
+        else
+          Generator.start([result[1..-1], ''])
+        end
       end
     end
 
@@ -23,6 +30,19 @@ module Sanctuary
         return present_choices(path + "/" + prompt_choice)
       end
       return path + "/" + prompt_choice
+    end
+
+    def self.multi_select(path = "")
+      choices = Reader.read_templates(path)[2..-1].sort
+      prompt = TTY::Prompt.new
+      prompt_choices = prompt.multi_select("Select a templates", choices)
+      if Reader.directory?(prompt_choices[0])
+        return multi_select(path + "/" + prompt_choices[0])
+      end
+
+      prompt_choices.map do |choice|
+        path + "/" + choice
+      end
     end
   end
 end
