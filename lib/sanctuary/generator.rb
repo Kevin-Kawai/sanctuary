@@ -16,7 +16,7 @@ module Sanctuary
       unless recipe.empty?
         File.open(Sanctuary::HOME_DIR.gsub("templates", "recipes/") + template) do |file|
           file.each do |line|
-            copy_file "#{line.chomp}", "#{line.chomp.split("/").last}"
+            copy_file "#{line.chomp}", "#{line.split("/")[1..-1].join("/").chomp}"
           end
         end
       else
