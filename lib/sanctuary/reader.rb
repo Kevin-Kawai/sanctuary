@@ -5,6 +5,10 @@ module Sanctuary
       Dir.open(HOME_DIR + "/#{path}").to_a
     end
 
+    def self.read_recipes(path = "")
+      Dir.open(HOME_DIR.gsub("templates", "recipes") + "/#{path}").to_a
+    end
+
     def self.directory?(path = "")
       Pathname.new(HOME_DIR + "/#{path}").directory?
     end

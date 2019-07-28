@@ -8,14 +8,18 @@ module Sanctuary
       if ARGV.include?("-m")
         results = multi_select
         results.each do |result|
-          Generator.start([result[1..-1], ''])
+          Generator.start([result[1..-1], '', ''])
         end
+      elsif ARGV.include?("-r")
+        result = present_recipe_choices
+        puts "selected recipes"
+        Generator.start([result[1..-1], '', 'true'])
       else
         result = present_choices
         if ARGV.include?("-p")
-          Generator.start([result[1..-1], ARGV.last])
+          Generator.start([result[1..-1], ARGV.last, ''])
         else
-          Generator.start([result[1..-1], ''])
+          Generator.start([result[1..-1], '', ''])
         end
       end
     end
@@ -28,6 +32,16 @@ module Sanctuary
       prompt_choice = prompt.enum_select("Select a template?", choices)
       if Reader.directory?(prompt_choice)
         return present_choices(path + "/" + prompt_choice)
+      end
+      return path + "/" + prompt_choice
+    end
+
+    def self.present_recipe_choices(path = "")
+      choices = Reader.read_recipes(path)[2..-1].sort
+      prompt = TTY::Prompt.new
+      prompt_choice = prompt.enum_select("Select a template?", choices)
+      if Reader.directory?(prompt_choice)
+        return present_recipe_choices(path + "/" + prompt_choice)
       end
       return path + "/" + prompt_choice
     end
