@@ -12,7 +12,6 @@ module Sanctuary
         end
       elsif ARGV.include?("-r")
         result = present_recipe_choices
-        puts "selected recipes"
         Generator.start([result[1..-1], '', 'true'])
       else
         result = present_choices
