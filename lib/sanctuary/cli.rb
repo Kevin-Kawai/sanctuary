@@ -30,7 +30,7 @@ module Sanctuary
       choices = Reader.read_templates(path)[2..-1].sort
       prompt = TTY::Prompt.new
       prompt_choice = prompt.enum_select("Select a template?", choices)
-      if Reader.directory?(prompt_choice)
+      if Reader.directory?(path.empty? ? prompt_choice : path + "/" + prompt_choice)
         return present_choices(path + "/" + prompt_choice)
       end
       return path + "/" + prompt_choice
@@ -40,7 +40,7 @@ module Sanctuary
       choices = Reader.read_recipes(path)[2..-1].sort
       prompt = TTY::Prompt.new
       prompt_choice = prompt.enum_select("Select a template?", choices)
-      if Reader.directory?(prompt_choice)
+      if Reader.directory?(path.empty? ? prompt_choice : path + "/" + prompt_choice)
         return present_recipe_choices(path + "/" + prompt_choice)
       end
       return path + "/" + prompt_choice
