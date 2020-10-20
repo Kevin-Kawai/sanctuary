@@ -10,7 +10,7 @@ module Sanctuary
     end
 
     def self.directory?(path = "")
-      Pathname.new(HOME_DIR + "/#{path}").directory?
+      ::Pathname.new(HOME_DIR + "/#{path}").directory?
     end
   end
 end
