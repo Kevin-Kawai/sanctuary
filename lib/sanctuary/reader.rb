@@ -1,3 +1,5 @@
+require("pathname")
+
 module Sanctuary
   HOME_DIR = Dir.home + "/.sanctuary/templates"
   class Reader
@@ -10,7 +12,7 @@ module Sanctuary
     end
 
     def self.directory?(path = "")
-      ::Pathname.new(HOME_DIR + "/#{path}").directory?
+      Pathname.new(HOME_DIR + "/#{path}").directory?
     end
   end
 end
