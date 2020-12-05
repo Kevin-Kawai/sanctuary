@@ -6,19 +6,21 @@ module Sanctuary
   include Thor::Actions
     argument :template
     argument :name
-    argument :recipe
+    argument :type
 
     def self.source_root
       Sanctuary::HOME_DIR
     end
 
     def create_lib_file
-      unless recipe.empty?
+      if type == 'recipe'
         File.open(Sanctuary::HOME_DIR.gsub("templates", "recipes/") + template) do |file|
           file.each do |line|
             copy_file "#{line.gsub("||", "/").chomp}", "#{line.split("||")[1..-1].join("/").chomp}"
           end
         end
+      elsif type == 'script'
+        system "sh #{Sanctuary::HOME_DIR.gsub("templates", "scripts/")}#{template}"
       else
         if name.empty?
           # only copy the file and not the directory the file resides in
