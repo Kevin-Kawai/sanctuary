@@ -15,7 +15,7 @@ module Sanctuary
         Generator.start([result[1..-1], '', 'recipe'])
       elsif ARGV.include?("--script")
         result = present_script_choices
-        Generator.start([result[1..-1], '', 'script'])
+        Generator.start([result[1..-1], ARGV.last, 'script'])
       else
         result = present_choices
         if ARGV.include?("-p")

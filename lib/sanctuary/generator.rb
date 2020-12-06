@@ -19,8 +19,15 @@ module Sanctuary
             copy_file "#{line.gsub("||", "/").chomp}", "#{line.split("||")[1..-1].join("/").chomp}"
           end
         end
+        if Dir.entries(".").include?('sanctuary-post-recipe-copy-hook.sh')
+          system "sh ./sanctuary-post-recipe-copy-hook.sh"
+        end
       elsif type == 'script'
-        system "sh #{Sanctuary::HOME_DIR.gsub("templates", "scripts/")}#{template}"
+        if name.nil?
+          system "sh #{Sanctuary::HOME_DIR.gsub("templates", "scripts/")}#{template}"
+        else
+          system "sh #{Sanctuary::HOME_DIR.gsub("templates", "scripts/")}#{template} #{name}"
+        end
       else
         if name.empty?
           # only copy the file and not the directory the file resides in
