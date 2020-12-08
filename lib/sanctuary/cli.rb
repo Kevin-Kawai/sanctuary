@@ -1,6 +1,7 @@
 require "tty-prompt"
 require_relative "generator"
 require_relative "reader"
+require_relative "recipe_generator"
 
 module Sanctuary
   class CLI
@@ -16,6 +17,8 @@ module Sanctuary
       elsif ARGV.include?("--script")
         result = present_script_choices
         Generator.start([result[1..-1], ARGV.last, 'script'])
+      elsif ARGV.include?("--save-recipe")
+        RecipeGenerator.generate_recipe
       else
         result = present_choices
         if ARGV.include?("-p")
